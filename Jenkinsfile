@@ -41,7 +41,7 @@ node{
 	
     stage('Docker Image Scan'){
         echo 'Scanning Docker image for vulnerbilities'
-        sh "/usr/local/bin/docker build -t aratipawashe@gmail/insure-me:3.0 --pull --no-cache ."
+        sh "/usr/local/bin/docker docker build -t aratipawashe@gmail.com/insure-me:3.0 --pull --no-cache ."
 		}   
 	
     stage('Publishing Image to DockerHub'){
