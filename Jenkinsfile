@@ -1,11 +1,11 @@
 node{
     
-    def mavenHome, mavenCMD, docker, tag, dockerHubUser, containerName, httpPort = ""
+    //def mavenHome, mavenCMD, docker, tag, dockerHubUser, containerName, httpPort = ""
     
     stage('Prepare Environment'){
         echo 'Initialize Environment'
-        mavenHome = tool name: 'maven' , type: 'maven'
-        mavenCMD = "${mavenHome}/bin/mvn"
+        //mavenHome = tool name: 'maven' , type: 'maven'
+        //mavenCMD = "${mavenHome}/bin/mvn"
         tag="3.0"
 	dockerHubUser="aratipawashe@gmail.com"
 	containerName="insure-me"
