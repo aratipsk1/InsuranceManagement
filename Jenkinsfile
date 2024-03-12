@@ -4,10 +4,10 @@ node{
     
     stage('Prepare Environment'){
         echo 'Initialize Environment'
-        //mavenHome = tool name: 'maven' , type: 'maven'
-        //mavenCMD = "${mavenHome}/bin/mvn"
+        mavenHome = tool name: 'maven' , type: 'maven'
+        mavenCMD = "${mavenHome}/bin/mvn"
         tag="3.0"
-	dockerHubUser="aratipawashe@gmail.com"
+	dockerHubUser="aratipawashe"
 	containerName="insure-me"
 	httpPort="8081"
     }
@@ -26,13 +26,12 @@ node{
     }
     
     stage('Maven Build'){
-        //sh "${mavenCMD} clean package"
-	//sh "mvn clean package"
+        sh "${mavenCMD} clean package"        
     }
     
-    //stage('Publish Test Reports'){
-      //  publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-    //}
+    stage('Publish Test Reports'){
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+    }
     
     stage('Docker Image Build'){
         echo 'Creating Docker image'
@@ -41,12 +40,12 @@ node{
 	
     stage('Docker Image Scan'){
         echo 'Scanning Docker image for vulnerbilities'
-        sh "/usr/local/bin/docker docker build -t aratipawashe@gmail.com/insure-me:3.0 --pull --no-cache ."
-		}   
+        sh "docker build -t ${dockerHubUser}/insure-me:${tag} ."
+    }   
 	
     stage('Publishing Image to DockerHub'){
         echo 'Pushing the docker image to DockerHub'
-        withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
+        withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'dockerUser', passwordVariable: 'dockerPassword')]) {
 			sh "docker login -u $dockerUser -p $dockerPassword"
 			sh "docker push $dockerUser/$containerName:$tag"
 			echo "Image push complete"
@@ -60,6 +59,3 @@ node{
 		echo "Application started on port: ${httpPort} (http)"
 	}
 }
-
-
-
