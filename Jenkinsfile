@@ -1,6 +1,6 @@
 node{
     
-    //def mavenHome, mavenCMD, docker, tag, dockerHubUser, containerName, httpPort = ""
+    def mavenHome, mavenCMD, docker, tag, dockerHubUser, containerName, httpPort = ""
     
     stage('Prepare Environment'){
         echo 'Initialize Environment'
@@ -27,7 +27,7 @@ node{
     
     stage('Maven Build'){
         //sh "${mavenCMD} clean package"
-	sh "mvn clean package"
+	//sh "mvn clean package"
     }
     
     //stage('Publish Test Reports'){
